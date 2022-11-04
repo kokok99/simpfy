@@ -1,0 +1,78 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Login </title>
+  <!-- plugins:css -->
+  <!-- endinject -->
+  <!-- End plugin css for this page -->
+  <link rel="stylesheet" href="{% static 'feed/bootstrap/bootstrap.min.css' %}">
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'feed/css/vertical-layout-light/custom.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'feed/img/slogo.png' %}" />
+</head>
+
+<body>
+  <section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex align-items-center justify-content-center h-100">
+        <div class="col-md-8 col-lg-7 col-xl-6">
+          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+            class="img-fluid" alt="Phone image">
+        </div>
+        <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+          <div>
+            {% for message in messages %}
+            <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+          </div>
+          <h1>Welcome to <span class="text-primary">Simpfy</span></h1><br><br>
+          <form action="" method="POST">
+            {% csrf_token %}
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+              <input type="text" name="username" class="form-control form-control-lg" />
+              <label class="form-label">Username</label>
+            </div>
+  
+            <!-- Password input -->
+            <div class="form-outline mb-4">
+              <input type="password" name="password" class="form-control form-control-lg" />
+              <label class="form-label">Password</label>
+            </div>
+  
+            <div class="d-flex justify-content-around align-items-center mb-4">
+              <!-- Checkbox -->
+              <!--<div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />
+                <label class="form-check-label" for="form1Example3"> Remember me </label>
+              </div>-->
+              <a href="#!">Forgot password?</a>
+            </div>
+  
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+            <br>
+            <p>Don't have an account yet?<a href="/signup"> Register Here</a>
+  
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- container-scroller -->
+   <script src="{% static 'feed/bootstrap/bootstrap.min.js' %}"></script>
+   <!-- End custom js for this page-->
+  <!-- endinject -->
+</body>
+
+</html>
