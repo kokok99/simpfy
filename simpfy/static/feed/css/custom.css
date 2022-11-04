@@ -27,3 +27,9 @@ background: #eee;
     top: 0;
   }
 
+.card-img {
+    width: 100%;
+    height: 6vw;
+    object-fit: cover;
+}
+

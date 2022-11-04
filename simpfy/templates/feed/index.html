@@ -289,7 +289,7 @@
                 {% for users in all_user %}
                 <hr>
                 <div class="post-item clearfix">
-                  <img class="img-fluid rounded-circle img-thumbnail" src="{{ users.image.url }}" alt="">
+                  <img class="card-img img-fluid img-responsive" src="{{ users.image.url }}" alt="">
                   <a href="/profile/{{ users.user.username }}">@ {{ users.user.username }}</a>
                   <p>{{ users.bio }}</p>
                 </div>
