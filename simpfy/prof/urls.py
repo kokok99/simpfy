@@ -8,5 +8,5 @@ urlpatterns = [
     path('logout', views.logout, name="logout"),
     path('profile/<str:pk>', views.profile, name="profile"),
     path('settings', views.settings, name="settings"),
-    #path('follow', views.follow , name="follow"),
+    path('profile/follow/<str:pk>/<int:opt>', views.follow , name="follow"),
 ]

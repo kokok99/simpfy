@@ -67,6 +67,9 @@ def profile(request, pk):
     user_profile = Profile.objects.get(user=user_object)
     user_posts = Feed.objects.all().filter(user=user_object)
     user_post_len = len(user_posts)
+    following_count = Follow.objects.filter(follower=user_object).count()
+    followers_count = Follow.objects.filter(following=user_object).count()
+    follow_status = Follow.objects.filter(following=user_object, follower=request.user).exists()
 
     user_request = User.objects.get(username=request.user.username)
     user_req = Profile.objects.get(user=user_request)
@@ -80,6 +83,9 @@ def profile(request, pk):
         'user_posts' : user_posts,
         'user_post_len' : user_post_len,
         'user_request' : user_request,
+        'following_count' : following_count,
+        'followers_count' : followers_count,
+        'follow_status' : follow_status
     }
 
     return render(request, 'feed/profile.html', context)
@@ -126,3 +132,19 @@ def settings(request):
     }
              
     return render(request, 'feed/settings.html', context)
+
+#FOLLOW FUNCTION------------------------------------------------------------------------
+@login_required(login_url='login')
+def follow(request, pk, opt):
+    user = User.objects.get(username=request.user)
+    following = User.objects.get(username=pk)
+    current = following.username
+    if int(opt) == 1:
+        follow = Follow.objects.create(follower=user, following=following)
+        follow.save
+        return redirect('/profile/'+current)
+    else:
+        unfollow = Follow.objects.filter(follower=user, following=following).first()
+        unfollow.delete()
+        return redirect('/profile/'+current)
+     

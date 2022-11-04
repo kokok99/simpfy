@@ -12,3 +12,18 @@ background: #eee;
     outline: none;
 }
 
+.scroll {
+    margin:5px;
+    padding:5px;
+    width: 300px;
+    height: 400px;
+    overflow: auto;
+    text-align:justify;
+}
+
+.sticky {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+  }
+
