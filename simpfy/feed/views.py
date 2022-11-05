@@ -29,14 +29,31 @@ def upload(request):
     if request.method == 'POST':
         user = request.user
         image = request.FILES.get('image_upload')
-        caption = request.POST['caption']
+        captionimg = request.POST['captionimg']
+        captionvid = request.POST['captionvid']
         text = request.POST['text']
+        video = request.FILES.get('video_upload')
         
         user_model = User.objects.get(username=user)
         
-        new_post = Feed.objects.create(user=user_model, image=image, caption=caption, text=text)
-        new_post.save()
-
-        return redirect('/')
+        if captionvid != None and video != None:
+            new_post = Feed.objects.create(user=user_model, video=video, captionvid=captionvid)
+            new_post.save()
+            return redirect('/')
+        elif image != None and captionimg != None:
+            new_post = Feed.objects.create(user=user_model, image=image, captionimg=captionimg)
+            new_post.save()
+            return redirect('/')
+        elif text != None:
+            new_post = Feed.objects.create(user=user_model, text=text)
+            new_post.save()
+            return redirect('/')
+        elif image == None and captionimg == None and captionvid == None and video == None and text == None:
+            messages.info(request, 'No Post to post')
+            return redirect('/')
+        
     else:
         return redirect('/')
+
+
+
