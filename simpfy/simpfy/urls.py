@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('prof.urls')),
     path('', include('feed.urls')),
+    path('', include('tools.urls')),
 ]
 
 # This is used for

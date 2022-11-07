@@ -4,6 +4,7 @@ from .models import Feed, Likes
 from prof.models import Profile
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 @login_required(login_url='login')
@@ -55,5 +56,18 @@ def upload(request):
     else:
         return redirect('/')
 
+def delete_post(request, pk):
+    user = request.user.username
+    posts = Feed.objects.get(id=pk)
+    image = posts.image
+    video = posts.video
+    fs = FileSystemStorage()
+    if image:
+        fs.delete(image.name)
+    elif video:
+        fs.delete(video.name)
+    
+    posts.delete()
 
+    return redirect('/profile/'+user)
 

@@ -9,4 +9,5 @@ urlpatterns = [
     path('profile/<str:pk>', views.profile, name="profile"),
     path('settings', views.settings, name="settings"),
     path('profile/follow/<str:pk>/<int:opt>', views.follow , name="follow"),
+    path('remove/<int:pk>', views.remove_pic, name="remove"),
 ]

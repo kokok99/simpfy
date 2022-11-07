@@ -4,6 +4,7 @@ from .models import Profile, Follow
 from feed.models import Feed, Likes
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.files.storage import FileSystemStorage
 
 #SIGNUP FUNCTION-------------------------------------------------------------------------
 def signup(request):
@@ -121,9 +122,6 @@ def settings(request):
             user_profile.location = location
             user_profile.fname = fname
             user_profile.save()
-            caption = request.user.username + ' has updated profile picture'
-            post = Feed.objects.create(user=user_profile, image=image, caption=caption, text='')
-            post.save()
         
         return redirect('settings')
     
@@ -148,3 +146,14 @@ def follow(request, pk, opt):
         unfollow.delete()
         return redirect('/profile/'+current)
      
+def remove_pic(request, pk):
+    user = request.user.username
+    pic = Profile.objects.get(id=pk)
+    pics = pic.image
+    fs = FileSystemStorage()
+    fs.delete(pics.name)
+    pics.delete()
+    new_pic = fs.generate_filename('blank.png')
+    pic.image = new_pic
+    pic.save()
+    return redirect('/profile/'+user)

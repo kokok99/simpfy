@@ -131,7 +131,7 @@
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link " href="#">
+        <a class="nav-link " href="/tools-index">
           <i class="bi bi-grid"></i>
           <span>Tools</span>
         </a>
@@ -158,7 +158,7 @@
       <div class="row">
 
         <!-- Left side columns -->
-        <div class="col-lg-8">
+        <div class="col-lg-6">
           <div class="row">
 
             <!-- Customers Card -->
@@ -179,11 +179,11 @@
                         <input type="text" name="text" class="form-control form-control-lg" placeholder="share with us..">
                       </div>
                       <br>
-                      <button style="color: white;" type="submit" class="btn btn-primary">Post</button>
+                      <button style="color: white;" type="submit" class="btn btn-primary">Post Now</button>
                       <!-- Vertically centered Modal -->
-                      <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#verticalycentered">
-                        <i class="bi bi-images"></i> Share Pic
-                      </button>
+                      <button style="float: right; margin-left:3px;" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+                        <i class="bi bi-images"></i> Pic
+                      </button> 
                       <div class="modal fade" id="verticalycentered" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered">
                           <div class="modal-content">
@@ -202,9 +202,9 @@
                           </div>
                         </div>
                       </div><!-- End Vertically centered Modal-->    
-                      <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#verticalycentered1">
-                        <i class="bi bi-camera-reels-fill"></i> Share Video
-                      </button>
+                      <button style="float: right;" type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#verticalycentered1">
+                        <i class="bi bi-camera-reels-fill"></i> Vid
+                      </button> &nbsp; &nbsp;
                       <div class="modal fade" id="verticalycentered1" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered">
                           <div class="modal-content">
@@ -303,29 +303,29 @@
         </div><!-- End Left side columns -->
 
         <!-- Right side columns -->
-        <div class="col-lg-3">
+        <div class="col-lg-6">
 
 
-          <!-- News & Updates Traffic -->
-          <div class="card scroll sticky">
 
-            <div class="card-body pb-0">
-              <h5 class="card-title">User Suggestion</h5>
+          <div class="col-xxl-4 col-xl-12">
 
-              <div class="news">
-                {% for users in all_user %}
-                <hr>
-                <div class="post-item clearfix">
-                  <img class="card-img img-fluid img-responsive" src="{{ users.image.url }}" alt="">
-                  <a href="/profile/{{ users.user.username }}">@ {{ users.user.username }}</a>
-                  <p>{{ users.bio }}</p>
-                </div>
-                <hr>
-                {% endfor %}
-              </div><!-- End sidebar recent posts-->
+            <div class="card info-card customers-card">
 
+              <div class="card-body">
+              
+                <p class="card-title"></p>
+              
+                <div class="d-flex align-items-center">
+                  
+                
+                </div>    
+                
+                <!--<h4><i class="bi bi-hand-thumbs-up-fill"></i></h4>
+                     <a href="#"><i class="bi bi-chat-dots-fill"></i></a>-->
+              </div>
             </div>
-          </div><!-- End News & Updates -->
+
+          </div>
 
         </div><!-- End Right side columns -->
 

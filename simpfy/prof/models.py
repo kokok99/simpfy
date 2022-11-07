@@ -12,6 +12,10 @@ class Profile(models.Model):
     location = models.CharField(max_length=300, null=True, blank=True)
     saved = models.ManyToManyField(Feed, blank=True)
 
+    def delete(self, *args, **kwargs):
+        self.image.delete()
+        super().delete(*args, **kwargs)
+
     def __str__(self):
         return self.user.username
 
