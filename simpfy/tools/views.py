@@ -2,25 +2,25 @@ from django.shortcuts import render, redirect
 from rembg import remove
 from PIL import Image
 from .models import Rembg
+from django.core.files.storage import FileSystemStorage
+
 
 # Create your views here.
 def tools_index(request):
     return render(request, 'tools/tools_index.html')
 
 def tools_rembg(request):
-    pics = Rembg.objects.all()
     if request.method == "POST":
-        image = request.POST['image']
-        insert = Rembg.objects.create(image=image)
-        insert.save()
-        input = Image.open(insert)
+        image = request.FILES.get('image')
+        input = Image.open(image)
         output = remove(input)
-        save = output.save('output.png')
-        rem = Rembg.objects.create(output=save)
-        rem.save()
+        output.save('media/rembg/output.png')
         return redirect('/tools-rembg')
+    fs = FileSystemStorage()
+    new_pic = fs.generate_filename('media/rembg/output.png')
+        
     
     context = {
-        'pics' : pics
+        'pics' : new_pic
     }
     return render(request, 'tools/tools_rembg.html', context)
