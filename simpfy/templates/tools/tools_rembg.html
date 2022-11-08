@@ -7,50 +7,89 @@
       <h1>Remove Background Image</h1>
     </div><!-- End Page Title -->
     <section class="section">
-      <div class="row">
-
-        
-
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title"></h5>
-
-              <!-- Vertical Form -->
-              <form action="" method="POST" enctype="multipart/form-data" class="row g-3">
-                {% csrf_token %}
-                <div class="col-12">
-                  <label class="form-label">Select Image </label>
-                  <input type="file" name="image" class="form-control" id="inputNanme4">
-                </div>
-                <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Remove</button>
-                  <a href="/tools-index" class="btn btn-secondary">Back</a>
-                </div>
-              </form><!-- Vertical Form -->
-
+        <div class="row align-items-top">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"></h5>
+  
+                <!-- Vertical Form -->
+                <form action="" method="POST" enctype="multipart/form-data" class="row g-3">
+                  {% csrf_token %}
+                  <div class="col-12">
+                    <label class="form-label">Select Image </label>
+                    <input type="file" name="image" class="form-control" id="inputNanme4">
+                  </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Remove</button>
+                    <a href="/tools-index" class="btn btn-secondary">Back</a>
+                  </div>
+                </form><!-- Vertical Form -->
+  
+              </div>
             </div>
           </div>
-
- 
-      </div>
-    </section>
-    <section class="section">
-        <div class="row align-items-top">
-          
             <div class="col-sm-6">
-              <!-- Special title treatmen -->
-              <div class="card text-center">
-                <div class="card-header">
-                </div>
+              <div class="card info-card customers-card">
+
                 <div class="card-body">
-                  {% for pic in pics %}
-                  <image src={{pic.output.url}}><br>
-                    <image src={{pic.image.url}}><br>
-                    
-                   {% endfor %} 
-                  <a href="{{pics.output.url}}" class="btn btn-primary" download>Download</a>
+                
+                  <p class="card-title"></hp>
+                
+                  <div class="d-flex align-items-center">
+                    <div class="ps-3">
+                      <h2>Results History</h2>
+                    </div>
+                  </div>
                 </div>
-              </div><!-- End Special title treatmen -->
+              </div>
+
+              {% for pic in pics reversed %}
+              <div class="card info-card customers-card">
+
+                <div class="card-body">
+                
+                  <p class="card-title"></hp>
+                
+                  <div class="d-flex align-items-center">
+                    <div class="ps-3">
+                      
+                      <div class="feed-image p-2 px-3"><a href="{{ pic.output.url }}"><img class="img-fluid img-responsive" src="{{ pic.output.url }}"></a></div>
+                      
+                    </div>
+                  </div><hr>
+                  <div style="justify-content: center;">
+                    <div >    
+                      <a href="{{pic.output.url}}" class="btn btn-primary btn-sm" download>Download</a>
+                      <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#verticalycentered-{{ pic.id }}">
+                        <i class="bi bi-images"></i> Delete
+                      </button>
+                      <!-- Vertically centered Modal -->
+                  
+                       <div class="modal fade" id="verticalycentered-{{ pic.id }}">
+                         <div class="modal-dialog modal-dialog-centered">
+                           <div class="modal-content">
+                             <div class="modal-header">
+                               <h5 class="modal-title"></h5>
+                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                             </div>
+                             <div class="modal-body">                            
+                                     Are You sure want to delete this ?
+                             </div>
+                             <div class="modal-footer">
+                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                               <a href="/remdel/{{ pic.id }}" style="color: white;" class="btn btn-primary">Confirm</a>
+                             </div>
+                           </div>
+                         </div>
+                       </div><!-- End Vertically centered Modal-->
+                    </div>
+                  </div>    
+                  
+                
+                </div>
+              </div>
+              {% endfor %}
             </div>
          
   

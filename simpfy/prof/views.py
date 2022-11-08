@@ -59,7 +59,7 @@ def login(request):
 @login_required(login_url='login')
 def logout(request):
     auth.logout(request)
-    return render(request, 'feed/login.html')
+    return redirect('login')
 
 #PROFILE FUNCTION------------------------------------------------
 @login_required(login_url='login')

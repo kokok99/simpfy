@@ -10,6 +10,8 @@ import os
 
 
 # Create your views here.
+#REMBG SECTION-----------------------------------------------------------------------------------------
+
 def tools_index(request):
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
@@ -33,7 +35,7 @@ def tools_rembg(request):
         output_path = os.path.splitext(im)[0] + '.png'
         output = remove(input)
         output.save('media/'+output_path)
-        s = Rembg.objects.create(user=user_profile, image=image, output=output_path)
+        s = Rembg.objects.create(user=user_profile, output=output_path)
         s.save()
         return redirect('/tools-rembg')
     
@@ -45,3 +47,14 @@ def tools_rembg(request):
         'all_user' : all_user,
     }
     return render(request, 'tools/tools_rembg.html', context)
+
+
+def delete_rembg(request, pk):
+    item = Rembg.objects.get(id=pk)
+    pics = item.output
+    fs = FileSystemStorage()
+    fs.delete(pics.name)
+    item.delete()
+    return redirect('tools-rembg')
+
+#-------------------------------------------------------------------------------------------------------

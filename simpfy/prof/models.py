@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from feed.models import Feed
+
 
 # Create your models here.
 class Profile(models.Model):
@@ -10,7 +10,7 @@ class Profile(models.Model):
     fname = models.CharField(max_length=300, null=True, blank=True)
     bio = models.CharField(max_length=300, null=True, blank=True)
     location = models.CharField(max_length=300, null=True, blank=True)
-    saved = models.ManyToManyField(Feed, blank=True)
+    saved = models.ManyToManyField("feed.Feed", related_name="Profile", blank=True)
 
     def delete(self, *args, **kwargs):
         self.image.delete()

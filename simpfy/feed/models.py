@@ -1,12 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User, auth
+from prof.models import Profile
 import uuid
 from datetime import datetime
 
 # Create your models here.
 class Feed(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='post_images', null=True, blank=True)
     video = models.FileField(upload_to='post_videos', null=True, blank=True)
     file = models.FileField(upload_to='post_files', null=True, blank=True)
