@@ -93,7 +93,7 @@
 
                 <div class="card-body">
                 
-                <p class="card-title"><a href="/profile/{{ post.user }}"> <a href="{{post.user.image.url}}"><img class="rounded-circle" src="{{ post.user.image.url }}" width="45"></a>@{{post.user}}</a> <span>| {{ post.created_at|date:"D" }} at {{ post.created_at|date:"h:i" }}</span></hp>
+                <p class="card-title"><a href="{{post.user.image.url}}"><img class="rounded-circle" src="{{ post.user.image.url }}" width="45"></a><a href="/profile/{{ post.user }}">@{{post.user}}</a> <span>| {{ post.created_at|date:"D" }} at {{ post.created_at|date:"h:i" }}</span></hp>
                 
                   <div class="d-flex align-items-center">
                     <div class="ps-3">

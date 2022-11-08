@@ -66,7 +66,7 @@ def logout(request):
 def profile(request, pk):
     user_object = User.objects.get(username=pk)
     user_profile = Profile.objects.get(user=user_object)
-    user_posts = Feed.objects.all().filter(user=user_object)
+    user_posts = Feed.objects.all().filter(user=user_profile)
     user_post_len = len(user_posts)
     following_count = Follow.objects.filter(follower=user_object).count()
     followers_count = Follow.objects.filter(following=user_object).count()
@@ -150,10 +150,14 @@ def remove_pic(request, pk):
     user = request.user.username
     pic = Profile.objects.get(id=pk)
     pics = pic.image
-    fs = FileSystemStorage()
-    fs.delete(pics.name)
-    pics.delete()
-    new_pic = fs.generate_filename('blank.png')
-    pic.image = new_pic
-    pic.save()
-    return redirect('/profile/'+user)
+    picname = pics.name
+    if picname != "blank.png":
+        fs = FileSystemStorage()
+        fs.delete(pics.name)
+        pics.delete()
+        new_pic = fs.generate_filename('blank.png')
+        pic.image = new_pic
+        pic.save()
+        return redirect('/profile/'+user)
+    else:
+        return redirect('/profile/'+user)
