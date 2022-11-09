@@ -24,7 +24,7 @@ def index(request):
     return render(request, 'feed/index.html', context)
 
 #---------------------------POSTING START-------------------------------------------------------
-@login_required(login_url='signin')
+@login_required(login_url='login')
 def upload(request):
     
     if request.method == 'POST':
@@ -36,17 +36,18 @@ def upload(request):
         video = request.FILES.get('video_upload')
         
         user_model = User.objects.get(username=user)
+        user_profile = Profile.objects.get(user=user_model)
         
         if captionvid != None and video != None:
-            new_post = Feed.objects.create(user=user_model, video=video, captionvid=captionvid)
+            new_post = Feed.objects.create(user=user_profile, video=video, captionvid=captionvid)
             new_post.save()
             return redirect('/')
         elif image != None and captionimg != None:
-            new_post = Feed.objects.create(user=user_model, image=image, captionimg=captionimg)
+            new_post = Feed.objects.create(user=user_profile, image=image, captionimg=captionimg)
             new_post.save()
             return redirect('/')
         elif text != None:
-            new_post = Feed.objects.create(user=user_model, text=text)
+            new_post = Feed.objects.create(user=user_profile, text=text)
             new_post.save()
             return redirect('/')
         elif image == None and captionimg == None and captionvid == None and video == None and text == None:
