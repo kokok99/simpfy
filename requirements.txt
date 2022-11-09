@@ -1,4 +1,4 @@
---upgrade setuptools
+
 aiohttp==3.8.1
 aiosignal==1.2.0
 altgraph==0.17.3
