@@ -16,3 +16,6 @@ def minindex(request):
 
 def dua(request):
     return render(request, 'mini/2048.html')
+
+def ttt(request):
+    return render(request, 'mini/ttt.html')

@@ -69,6 +69,7 @@ def delete_rembg(request, pk):
 def yt2mp3(request) :
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
+    all_user = Profile.objects.all()
     new_file = Ytvidmp.objects.all().filter(user=user_profile)
     if request.method == "POST":
         url = request.POST['url']
@@ -87,6 +88,8 @@ def yt2mp3(request) :
     
     context = {
         'new_file' : new_file,
+        'user_profile':user_profile,
+        'all_user' : all_user,
     }
 
     return render(request, 'tools/tools_ytvidtomp3.html', context)
@@ -112,6 +115,7 @@ def delmp3(request):
 def yt(request) :
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
+    all_user = Profile.objects.all()
     new_file = Yt.objects.all().filter(user=user_profile)
     if request.method == "POST":
         url = request.POST['url']
@@ -130,6 +134,8 @@ def yt(request) :
     
     context = {
         'new_file' : new_file,
+        'user_profile':user_profile,
+        'all_user' : all_user,
     }
 
     return render(request, 'tools/tools_yt.html', context)
