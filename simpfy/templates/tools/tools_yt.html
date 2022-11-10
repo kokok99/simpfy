@@ -3,7 +3,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Covert Youtube Video to Mp3</h1>
+    <h1>Download Youtube Video</h1>
   </div><!-- End Page Title -->
   <section class="section">
       <div class="row align-items-top">
@@ -41,7 +41,7 @@
             <h5 class="card-title">Your file is ready, press <b>Download</b> below</h5>
           </div>
           <div class="card-body">    
-            <form action="/mpdel" method="POST">
+            <form action="/ytdel" method="POST">
               {%csrf_token%}
             <h1><i class="bi bi-youtube"></i></h1>
             <input type="hidden" name='id' value={{file.id}}>
