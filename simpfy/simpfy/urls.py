@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('prof.urls')),
     path('', include('feed.urls')),
     path('', include('tools.urls')),
+    path('', include('mini.urls')),
 ]
 
 # This is used for

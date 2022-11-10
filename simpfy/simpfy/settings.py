@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'prof',
     'feed',
     'tools',
+    'mini',
 ]
 
 MIDDLEWARE = [
