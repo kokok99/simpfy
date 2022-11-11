@@ -1,4 +1,4 @@
 Django
 rembg
 pytube
-docx2pdf
+aspose-words

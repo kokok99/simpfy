@@ -41,12 +41,13 @@
             <h5 class="card-title">Your file is ready, press <b>Download</b> below</h5>
           </div>
           <div class="card-body">    
-            <form action="/ytdel" method="POST">
+            <!--<form action="#" method="POST">
               {%csrf_token%}
-            <h1><i class="bi bi-youtube"></i></h1>
-            <input type="hidden" name='id' value={{file.id}}>
-            <a href="{{file.output.url}}" style="color:white;" download><button type="submit" class="btn btn-primary">download</button></a>
-            </form>
+              <h1><i class="bi bi-youtube"></i></h1>
+              <input type="hidden" name='id' value={{file.id}}>
+              <a href="{{file.output.url}}" style="color:white;" download><button type="submit" class="btn btn-primary">download</button></a>
+            </form>-->
+            <a href="{{ file.output.url }}" class="btn btn-primary">Download</a>
           </div>
         </div>
         {% endfor %}
