@@ -9,4 +9,5 @@ urlpatterns = [
     path('mpdel', views.delmp3, name="mpdel"),
     path('yt', views.yt, name='yt'),
     path('ytdel', views.delyt, name="ytdel"),
+    path('word2pdf', views.word2pdf, name="word2pdf")
 ]

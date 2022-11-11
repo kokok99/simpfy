@@ -1,0 +1,58 @@
+{% load static %}
+{% include "../header.html" %}
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Word To PDF</h1>
+  </div><!-- End Page Title -->
+  <section class="section">
+      <div class="row align-items-top">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+
+              <!-- Vertical Form -->
+              <form action="" method="POST" enctype="multipart/form-data" class="row g-3">
+                {% csrf_token %}
+                <div class="col-12">
+                  <label class="form-label">Put the Word File </label>
+                  <input type="file" name="word" class="form-control" id="inputNanme4">
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Convert</button>
+                  <a href="/tools-index" class="btn btn-secondary">Back</a>
+                </div>
+              </form><!-- Vertical Form -->
+
+            </div>
+          </div>
+      </div>
+      <div class="row">
+        <!-- Special title treatmen -->
+        <div class="card text-center">
+          <div>
+            <h1 class="card-title">Results</h1>
+          </div>
+        </div><!-- End Special title treatmen -->
+        <!-- Special title treatmen -->
+        {% for file in new_file %}
+        <div class="card text-center">
+          <div>
+            <h5 class="card-title">Your file is ready, press <b>Download</b> below</h5>
+          </div>
+          <div class="card-body">    
+            <form action="/ytdel" method="POST">
+              {%csrf_token%}
+            <h1><i class="bi bi-youtube"></i></h1>
+            <input type="hidden" name='id' value={{file.id}}>
+            <a href="{{file.output.url}}" style="color:white;" download><button type="submit" class="btn btn-primary">download</button></a>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+        <!-- End Special title treatmen -->
+      </div>
+    </section>
+
+</main><!-- End #main -->
+{% include "../footer.html" %}

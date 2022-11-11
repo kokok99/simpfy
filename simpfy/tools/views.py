@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect
 from rembg import remove
 from PIL import Image
-from .models import Rembg, Ytvidmp, Yt
+from .models import Rembg, Ytvidmp, Yt, Word
 from prof.models import Profile
 from django.contrib.auth.models import User, auth
 from django.core.files.storage import FileSystemStorage
 from pytube import YouTube
 from django.http import HttpResponse
 from wsgiref.util import FileWrapper
+from docx2pdf import convert
+import pythoncom
 import os
 
 
@@ -154,3 +156,37 @@ def delyt(request):
         mp3.delete()
         return response
 #-----------------------------------------------------------------------------------------------------
+
+#------------------------------------IMAGE TO PDF-----------------------------------------------------
+def word2pdf(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    all_user = Profile.objects.all()
+    new_file = Word.objects.all().filter(user=user_profile)
+    if request.method == "POST":
+        word = request.FILES.get('word')
+        if word:
+            w = Word.objects.create(user=user_profile, input=word)
+            w.save()
+            fe = Word.objects.get(user=user_profile)
+            words = fe.input
+            inword = words.name
+            pythoncom.CoInitialize()
+            convert(inword)
+            convert("media/")
+
+            wrd = word.name
+            output_path = os.path.splitext(wrd)[0] + '.pdf'
+            wd = Word.objects.create(user=user_profile, output=output_path)
+            wd.save()
+            return redirect('/word2pdf')
+        else:
+            return redirect('/word2pdf')
+    
+    context = {
+        'user_profile':user_profile,
+        'all_user' : all_user,
+        'new_file' : new_file,
+    }
+
+    return render(request, 'tools/word2pdf.html', context)

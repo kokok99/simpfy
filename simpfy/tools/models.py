@@ -14,3 +14,8 @@ class Ytvidmp(models.Model):
 class Yt(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     output = models.FileField(upload_to="ytvid", blank=True, null=True)
+
+class Word(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    input = models.FileField(upload_to="word", blank=True, null=True)
+    output = models.FileField(upload_to="word", blank=True, null=True)
