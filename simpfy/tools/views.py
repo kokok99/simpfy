@@ -82,9 +82,9 @@ def yt2mp3(request) :
             os.rename(output, newf)
             s = Ytvidmp.objects.create(user = user_profile, output=newf)
             s.save()
-            return redirect('/yt')
+            return redirect('/ytvid')
         else:
-            return redirect('/yt')
+            return redirect('/ytvid')
     
     context = {
         'new_file' : new_file,
