@@ -8,7 +8,8 @@ from django.core.files.storage import FileSystemStorage
 from pytube import YouTube
 from django.http import HttpResponse
 from wsgiref.util import FileWrapper
-import aspose.words as aw
+from docx2pdf import convert
+import pythoncom
 import os
 
 
@@ -166,13 +167,13 @@ def word2pdf(request):
         word = request.FILES['word']
         if word:
             inword = word.name
-            output_path = os.path.splitext(inword)[0] + '.docx'
+            output_path = os.path.splitext(inword)[0] + '.pdf'
+            output = "word/"+output_path
             fs = FileSystemStorage()
-            fs.save(inword, word)
-            docx = "media/"+inword
-            doc = aw.Document(docx)
-            doc.save("media/"+output_path)
-            wd = Word.objects.create(user=user_profile, output=output_path)
+            fs.save("word/"+inword, word)
+            docx = "media/word/"+inword
+            convert(docx, pythoncom.CoInitialize())
+            wd = Word.objects.create(user=user_profile, output=output)
             wd.save()
             return redirect('/word2pdf')
         else:
