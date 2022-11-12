@@ -19,3 +19,6 @@ def dua(request):
 
 def ttt(request):
     return render(request, 'mini/ttt.html')
+
+def hec(request):
+    return render(request, 'mini/hectrix.html')
