@@ -1,0 +1,59 @@
+{% load static %}
+{% include "../header.html" %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Ask any Question</h1>
+        
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row align-items-top">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"></h5>
+  
+                <!-- Vertical Form -->
+                <form action="" method="POST" enctype="multipart/form-data" class="row g-3">
+                  {% csrf_token %}
+                  <div class="col-12">
+                    <label class="form-label">Ask here </label>
+                    <input type="text" name="ask" class="form-control" id="inputNanme4">
+                  </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Ask</button>
+                    <a href="/tools-index" class="btn btn-secondary">Back</a>
+                  </div>
+                </form><!-- Vertical Form -->
+  
+              </div>
+            </div>
+        </div>
+        <div class="row">
+          <!-- Special title treatmen -->
+          <div class="card text-center">
+            <div>
+              <h1 class="card-title">Results</h1>
+            </div>
+          </div><!-- End Special title treatmen -->
+          <!-- Special title treatmen -->
+          <div class="card text-center">
+            <div>
+              <h5 class="card-title">Your Answer is here</h5>
+            </div>
+            <div class="card-body">    
+
+              {% for ans in answer %}
+              <p>{{ans.output}}<p>
+              {% endfor %}
+              </form>
+            </div>
+          </div>
+          <!-- End Special title treatmen -->
+        </div>
+    </section>
+
+</main>
+
+{% include '../footer.html' %}
