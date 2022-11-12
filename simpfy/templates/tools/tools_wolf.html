@@ -37,20 +37,18 @@
               <h1 class="card-title">Results</h1>
             </div>
           </div><!-- End Special title treatmen -->
+          {% for ans in answer %}
           <!-- Special title treatmen -->
           <div class="card text-center">
             <div>
-              <h5 class="card-title">Your Answer is here</h5>
+              <h5 class="card-title">Your Answer for <u><b>{{ans.quest}}</b></u></h5>
             </div>
             <div class="card-body">    
-
-              {% for ans in answer %}
-              <p>{{ans.output}}<p>
-              {% endfor %}
-              </form>
+              <p>{{ans.output}}<p>      
             </div>
           </div>
           <!-- End Special title treatmen -->
+          {% endfor %}
         </div>
     </section>
 

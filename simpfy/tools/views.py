@@ -34,7 +34,7 @@ def wolf(request):
             client = wolframalpha.Client(app_id)
             res = client.query(quest)
             ans = next(res.results).text
-            s = Wolf.objects.create(user=user_profile, output=ans)
+            s = Wolf.objects.create(user=user_profile,quest=quest, output=ans)
             s.save()  
             return redirect('/wolf')
         else:
