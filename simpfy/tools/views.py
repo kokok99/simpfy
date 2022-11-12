@@ -21,7 +21,7 @@ def tools_index(request):
     }
     return render(request, 'tools/tools_index.html', context)
 
-
+#----------------------------WOLFRAMALPHA-----------------------------------------------------------------
 def wolf(request):
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
@@ -46,4 +46,10 @@ def wolf(request):
         'answer' : answer
     }
     return render(request, 'tools/tools_wolf.html', context)
-    
+
+def wolfdel(request, pk):
+    q = Wolf.objects.get(id=pk)
+    q.delete()
+    return redirect('/wolf')
+
+#------------------------------------------------------------------------------------------------------------
