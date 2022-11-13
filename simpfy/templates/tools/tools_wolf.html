@@ -4,7 +4,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Ask any Question</h1>
+        <h1></h1>
         
     </div><!-- End Page Title -->
 
@@ -32,19 +32,21 @@
         </div>
         <div class="row">
           <!-- Special title treatmen -->
-          <div class="card text-center">
+          <div class="card text-center bg-info">
             <div>
-              <h1 class="card-title">Results</h1>
+              <h1 class="card-title">Results History</h1>
             </div>
           </div><!-- End Special title treatmen -->
-          {% for ans in answer %}
+          {% for ans in answer reversed%}
           <!-- Special title treatmen -->
           <div class="card text-center">
             <div>
               <h5 class="card-title">Your Answer for <u><b>{{ans.quest}}</b></u></h5>
             </div>
             <div class="card-body">    
-              <p>{{ans.output}}<p>   
+              <p>{{ans.outputtext}}<p>
+              <h5><img src={{ans.outputimg}}></h5>
+                
               <a style="float:left;" href="/wolfdel/{{ans.id}}" class="btn btn-danger btn-sm">Remove</a>   
             </div>
           </div>

@@ -33,8 +33,15 @@ def wolf(request):
             app_id = "HT4JHK-U642Y56XLE"
             client = wolframalpha.Client(app_id)
             res = client.query(quest)
-            ans = next(res.results)
-            s = Wolf.objects.create(user=user_profile,quest=quest, output=ans)
+            for pod in res.results:
+                for sub in pod.subpods:
+                    an = sub.img
+            tx = next(res.results).text
+            img = an['@src']
+            
+            ansimg = img
+            anstext = tx
+            s = Wolf.objects.create(user=user_profile,quest=quest, outputtext=anstext, outputimg=ansimg)
             s.save()  
             return redirect('/wolf')
         else:
