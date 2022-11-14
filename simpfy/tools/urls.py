@@ -7,4 +7,5 @@ urlpatterns = [
     path('wolfdel/<int:pk>', views.wolfdel, name="wolfdel"),
     path('wiki', views.wiki, name="wiki"),
     path('wikidel/<int:pk>', views.wikidel, name="wikidel"),
+    path('wikihow', views.wikihow, name="wikihow"),
 ]
