@@ -65,6 +65,7 @@ def wolf(request):
 def wolfdel(request, pk):
     q = Wolf.objects.get(id=pk)
     q.delete()
+    messages.info(request, "Successfully deleted ")
     return redirect('/wolf')
 
 #------------------------------------------------------------------------------------------------------------
@@ -85,6 +86,7 @@ def wiki(request):
             ans = wikipedia.summary(quest, sentences=5)
             s = Wiki.objects.create(user=user_profile, quest=quest, outputtext=ans)
             s.save()
+            messages.info(request, "Good Search!")
             return redirect('/wiki')
         else:
             messages.info(request, "No Input From You :(")
@@ -99,9 +101,10 @@ def wiki(request):
     }
     return render(request, 'tools/tools_wiki.html', context)
 
-def woikidel(request, pk):
-    q = Wolf.objects.get(id=pk)
+def wikidel(request, pk):
+    q = Wiki.objects.get(id=pk)
     q.delete()
+    messages.info(request, "successfully deleted !")
     return redirect('/wiki')
 
 #--------------------------------------------------------------------------------------------------------
