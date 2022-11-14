@@ -7,3 +7,8 @@ class Wolf(models.Model):
     quest = models.CharField(max_length=1000, null=True, blank=True)
     outputtext = models.TextField(max_length=1000, null=True, blank=True)
     outputimg = models.CharField(max_length=1000, null=True, blank=True)
+
+class Wiki(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    quest = models.CharField(max_length=1000, null=True, blank=True)
+    outputtext = models.TextField(max_length=10000, null=True, blank=True)

@@ -1,2 +1,4 @@
 Django
 wolframalpha
+whapi
+wikipedia

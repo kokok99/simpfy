@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from prof.models import Profile
 from django.contrib.auth.models import User, auth
-from .models import Wolf
+from .models import Wolf, Wiki
 import wolframalpha
+import wikipedia
+from django.contrib import messages
 import os
 
 
@@ -14,10 +16,13 @@ def tools_index(request):
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
     all_user = Profile.objects.all()
+    user_request = User.objects.get(username=request.user.username)
+    user_req = Profile.objects.get(user=user_request)
 
     context = {
         'user_profile':user_profile,
         'all_user' : all_user,
+        'user_req' : user_req,
     }
     return render(request, 'tools/tools_index.html', context)
 
@@ -26,6 +31,8 @@ def wolf(request):
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
     all_user = Profile.objects.all()
+    user_request = User.objects.get(username=request.user.username)
+    user_req = Profile.objects.get(user=user_request)
     answer = Wolf.objects.all().filter(user=user_profile)
     if request.method == "POST":
         quest = request.POST['ask']
@@ -50,6 +57,7 @@ def wolf(request):
     context = {
         'user_profile':user_profile,
         'all_user' : all_user,
+        'user_req' : user_req,
         'answer' : answer
     }
     return render(request, 'tools/tools_wolf.html', context)
@@ -60,3 +68,40 @@ def wolfdel(request, pk):
     return redirect('/wolf')
 
 #------------------------------------------------------------------------------------------------------------
+
+#--------------------------------------WIKIPEDIA----------------------------------------------------------
+
+def wiki(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    all_user = Profile.objects.all()
+    user_request = User.objects.get(username=request.user.username)
+    user_req = Profile.objects.get(user=user_request)
+    answer = Wiki.objects.all().filter(user=user_profile)
+
+    if request.method == "POST":
+        quest = request.POST['ask']
+        if quest:
+            ans = wikipedia.summary(quest, sentences=5)
+            s = Wiki.objects.create(user=user_profile, quest=quest, outputtext=ans)
+            s.save()
+            return redirect('/wiki')
+        else:
+            messages.info(request, "No Input From You :(")
+            return redirect('/wiki')
+
+
+    context = {
+        'user_profile':user_profile,
+        'all_user' : all_user,
+        'user_req' : user_req,
+        'answer' : answer
+    }
+    return render(request, 'tools/tools_wiki.html', context)
+
+def woikidel(request, pk):
+    q = Wolf.objects.get(id=pk)
+    q.delete()
+    return redirect('/wiki')
+
+#--------------------------------------------------------------------------------------------------------

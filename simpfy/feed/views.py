@@ -12,6 +12,8 @@ def index(request):
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
     all_user = Profile.objects.all()
+    user_request = User.objects.get(username=request.user.username)
+    user_req = Profile.objects.get(user=user_request)
 
     
     post = Feed.objects.all()
@@ -20,6 +22,7 @@ def index(request):
         'user_profile':user_profile,
         'posts': post,
         'all_user' : all_user,
+        'user_req':user_req
     }
     return render(request, 'feed/index.html', context)
 

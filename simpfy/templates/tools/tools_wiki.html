@@ -1,0 +1,70 @@
+{% load static %}
+{% include "../header.html" %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1></h1>
+        
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row align-items-top">
+           
+          <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            <h4 class="alert-heading"><i class="bi bi-info-circle"></i> Enter Keywords Only</h4>
+            <p>If you want to search about facebook for example, just enter the word "facebook"</p>
+            <hr>
+            <p class="mb-0">P:S if you want to search about "How To's" just go to the how to section outside ;)</p>
+          </div>
+          {% for message in messages %}
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-octagon me-1"></i>
+            {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+ 
+            <div class="card">
+              <div class="card-body"><br>
+                <!-- Vertical Form -->
+                <form action="" method="POST" enctype="multipart/form-data" class="row g-3">
+                  {% csrf_token %}
+                  <div class="col-12">
+                    <label class="form-label">Ask here </label>
+                    <input type="text" name="ask" class="form-control" id="inputNanme4">
+                  </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-sm">Summary</button>
+                    <a href="#" class="btn btn-warning btn-sm">Whole Content</a>
+                    <a href="/tools-index" class="btn btn-secondary btn-sm">Back</a>
+                  </div>
+                </form><!-- Vertical Form -->
+  
+              </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="alert alert-dark alert-dismissible fade show" role="alert">
+            <center><i class="bi bi-collection me-1"></i>
+            Results History</center>
+          </div>
+          {% for ans in answer reversed%}
+          <!-- Special title treatmen -->
+          <div class="card text-center">
+            <div>
+              <h5 class="card-title">Your <span class="badge bg-primary" style="color:white;"><i class="bi bi-star me-1"></i> Answer</span> for <u><b>{{ans.quest}}</b></u></h5>
+            </div>
+            <div class="card-body">    
+              <h5>{{ans.outputtext|linebreaks}}<h5>
+              <a style="float:left;" href="/wolfdel/{{ans.id}}" class="btn btn-danger btn-sm">Remove</a>   
+            </div>
+          </div>
+          <!-- End Special title treatmen -->
+          {% endfor %}
+        </div>
+    </section>
+
+</main>
+
+{% include '../footer.html' %}
