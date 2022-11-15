@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from prof.models import Profile
 from django.contrib.auth.models import User, auth
-from .models import Wolf, Wiki, Wikihow
+from .models import Wolf, Wiki, Wikihow, Wolfmath, Wolfweather
 import wolframalpha
 import wikipedia
 from whapi import search, get_html, get_images, parse_steps
@@ -62,6 +62,76 @@ def wolf(request):
         'answer' : answer
     }
     return render(request, 'tools/tools_wolf.html', context)
+
+def wolfmath(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    all_user = Profile.objects.all()
+    user_request = User.objects.get(username=request.user.username)
+    user_req = Profile.objects.get(user=user_request)
+    answer = Wolfmath.objects.all().filter(user=user_profile)
+    if request.method == "POST":
+        quest = request.POST['ask']
+        if quest:
+            app_id = "HT4JHK-U642Y56XLE"
+            client = wolframalpha.Client(app_id)
+            res = client.query(quest)
+            for pod in res.results:
+                for sub in pod.subpods:
+                    an = sub.img
+            tx = next(res.results).text
+            img = an['@src']
+            
+            ansimg = img
+            anstext = tx
+            s = Wolfmath.objects.create(user=user_profile,quest=quest, outputtext=anstext, outputimg=ansimg)
+            s.save()  
+            return redirect('/wolfmath')
+        else:
+            return redirect('/wolfmath')
+
+    context = {
+        'user_profile':user_profile,
+        'all_user' : all_user,
+        'user_req' : user_req,
+        'answer' : answer
+    }
+    return render(request, 'tools/tools_wolfmath.html', context)
+
+def wolfweather(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    all_user = Profile.objects.all()
+    user_request = User.objects.get(username=request.user.username)
+    user_req = Profile.objects.get(user=user_request)
+    answer = Wolfweather.objects.all().filter(user=user_profile)
+    if request.method == "POST":
+        quest = request.POST['ask']
+        if quest:
+            app_id = "HT4JHK-U642Y56XLE"
+            client = wolframalpha.Client(app_id)
+            res = client.query(quest)
+            for pod in res.results:
+                for sub in pod.subpods:
+                    an = sub.img
+            tx = next(res.results).text
+            img = an['@src']
+            
+            ansimg = img
+            anstext = tx
+            s = Wolfweather.objects.create(user=user_profile,quest=quest, outputtext=anstext, outputimg=ansimg)
+            s.save()  
+            return redirect('/wolfweather')
+        else:
+            return redirect('/wolfweather')
+
+    context = {
+        'user_profile':user_profile,
+        'all_user' : all_user,
+        'user_req' : user_req,
+        'answer' : answer
+    }
+    return render(request, 'tools/tools_wolfweather.html', context)
 
 def wolfdel(request, pk):
     q = Wolf.objects.get(id=pk)
