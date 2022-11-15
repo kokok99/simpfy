@@ -127,8 +127,7 @@ def wikihow(request):
             for quest in q_res:
                 title = quest['title']
                 id_title = quest['article_id']
-                html = parse_steps(id_title)
-                s = Wikihow.objects.create(user=user_profile, quest=q, title=title, id_title=id_title, html=html)
+                s = Wikihow.objects.create(user=user_profile, quest=q, title=title, id_title=id_title)
                 s.save()
             messages.info(request, "Your results is down below!")
             return redirect('/wikihow')

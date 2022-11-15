@@ -16,6 +16,7 @@ class Feed(models.Model):
     text = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(default=datetime.now())
     likes = models.IntegerField(default=0)
+    like_stat = models.CharField(max_length=200, default="bi bi-heart")
     comments = models.TextField(null=True, blank=True)
 
     def __str__(self):
@@ -27,5 +28,11 @@ class Likes(models.Model):
 
     def __str__(self):
         return self.user
+
+class Comment(models.Model):
+    post = models.ForeignKey(Feed, on_delete=models.CASCADE, related_name="comment")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField(max_length=1000)
+    date = models.DateTimeField(auto_now_add=True, null=True)
 
 

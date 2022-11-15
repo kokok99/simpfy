@@ -17,12 +17,13 @@ def index(request):
 
     
     post = Feed.objects.all()
+
     
     context = {
         'user_profile':user_profile,
         'posts': post,
         'all_user' : all_user,
-        'user_req':user_req
+        'user_req':user_req,
     }
     return render(request, 'feed/index.html', context)
 
@@ -74,4 +75,28 @@ def delete_post(request, pk):
     posts.delete()
 
     return redirect('/profile/'+user)
+
+
+def like_post(request):
+    username = request.user
+    post_id = request.GET.get('post_id')
+
+    posts = Feed.objects.get(id = post_id)
+
+    like_filter = Likes.objects.filter(user=username, post=posts).count()
+
+    if not like_filter:
+        new_like = Likes.objects.create(user=username, post=posts)
+        new_like.save()
+        posts.likes = posts.likes+1
+        posts.like_stat = "bi bi-heart-fill"
+        posts.save()
+        return redirect('/')
+    else:
+        Likes.objects.filter(user=username, post=posts).delete()
+        posts.likes = posts.likes-1
+        posts.like_stat = "bi bi-heart"
+        posts.save()
+        return redirect('/')
+
 
