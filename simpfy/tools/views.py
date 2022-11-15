@@ -139,6 +139,17 @@ def wolfdel(request, pk):
     messages.info(request, "Successfully deleted ")
     return redirect('/wolf')
 
+def wolfweatherdel(request, pk):
+    q = Wolfweather.objects.get(id=pk)
+    q.delete()
+    messages.info(request, "Successfully deleted ")
+    return redirect('/wolfweather')
+
+def wolfmathdel(request, pk):
+    q = Wolfmath.objects.get(id=pk)
+    q.delete()
+    messages.info(request, "Successfully deleted ")
+    return redirect('/wolfmath')
 #------------------------------------------------------------------------------------------------------------
 
 #--------------------------------------WIKIPEDIA----------------------------------------------------------
@@ -222,4 +233,9 @@ def wikihowres(request, pk):
     }
     return render(request, 'tools/tools_wikihowres.html', context)
 
+def wikihowdel(request, pk):
+    q = Wikihow.objects.get(id=pk)
+    q.delete()
+    messages.info(request, "successfully deleted !")
+    return redirect('/wikihow')
 #---------------------------------------------------------------------------------------------------------------
