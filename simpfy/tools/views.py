@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, auth
 from .models import Wolf, Wiki, Wikihow
 import wolframalpha
 import wikipedia
+from whapi import search, get_html, get_images, parse_steps
 from django.contrib import messages
 import os
 
@@ -118,6 +119,22 @@ def wikihow(request):
     user_request = User.objects.get(username=request.user.username)
     user_req = Profile.objects.get(user=user_request)
     answer = Wikihow.objects.all().filter(user=user_profile)
+
+    if request.method == "POST":
+        q = request.POST['ask']
+        if q:
+            q_res = search(q, 4)
+            for quest in q_res:
+                title = quest['title']
+                id_title = quest['article_id']
+                html = parse_steps(id_title)
+                s = Wikihow.objects.create(user=user_profile, quest=q, title=title, id_title=id_title, html=html)
+                s.save()
+            messages.info(request, "Your results is down below!")
+            return redirect('/wikihow')
+        else:
+            messages.info(request, "No Input :(")
+            return redirect('/wikihow')
     context = {
         'user_profile':user_profile,
         'all_user' : all_user,
@@ -127,5 +144,13 @@ def wikihow(request):
     }
     return render(request, 'tools/tools_wikihow.html', context)
 
+def wikihowres(request, pk):
+    res = Wikihow.objects.get(id_title=pk)
+    ht = res.html
+
+    context = {
+        'res' : ht
+    }
+    return render(request, 'tools/tools_wikihowres.html', context)
 
 #---------------------------------------------------------------------------------------------------------------

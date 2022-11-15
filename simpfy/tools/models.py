@@ -16,4 +16,6 @@ class Wiki(models.Model):
 class Wikihow(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     quest = models.CharField(max_length=1000, null=True, blank=True)
-    outputtext = models.TextField(max_length=10000, null=True, blank=True)
+    title = models.CharField(max_length=500, null=True, blank=True)
+    id_title = models.CharField(max_length=100, null=True, blank=True)
+    html = models.TextField(max_length=100000, null=True, blank=True)

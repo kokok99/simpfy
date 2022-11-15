@@ -8,4 +8,5 @@ urlpatterns = [
     path('wiki', views.wiki, name="wiki"),
     path('wikidel/<int:pk>', views.wikidel, name="wikidel"),
     path('wikihow', views.wikihow, name="wikihow"),
+    path('wikihowres/<int:pk>', views.wikihowres, name="wikihowres"),
 ]

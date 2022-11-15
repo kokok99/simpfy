@@ -35,7 +35,7 @@
                     <input type="text" name="ask" class="form-control" id="inputNanme4">
                   </div>
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-sm">How</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Show Me</button>
                     <a href="/tools-index" class="btn btn-secondary btn-sm">Back</a>
                   </div>
                 </form><!-- Vertical Form -->
@@ -52,10 +52,11 @@
           <!-- Special title treatmen -->
           <div class="card text-center">
             <div>
-              <h5 class="card-title">Your <span class="badge bg-primary" style="color:white;"><i class="bi bi-star me-1"></i> Answer</span> for <u><b>{{ans.quest}}</b></u></h5>
+              <h5 class="card-title">Your <span class="badge bg-primary" style="color:white;"><i class="bi bi-star me-1"></i> Results</span> for <u><b>{{ans.quest}}</b></u></h5>
             </div>
             <div class="card-body">    
-              <h5>{{ans.outputtext|linebreaks}}<h5>
+              <h2>{{ans.title}}</h2>
+              <h5><a href="wikihowres/{{ans.id_title}}" class="btn btn-primary btn-sm">Go to 'How To'</a></h5>
               <a style="float:left;" href="/wikidel/{{ans.id}}" class="btn btn-danger btn-sm">Remove</a>   
             </div>
           </div>
