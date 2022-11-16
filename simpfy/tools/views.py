@@ -262,7 +262,7 @@ def qr(request):
             de = Qr.objects.all()
             de.delete()
             qr_code = pyqrcode.create(q)
-            qr_code.png("media/"+output_path, scale=5)
+            qr_code.png("media/"+output_path, scale=7)
             s = Qr.objects.create(user=user_profile, qr=q, res=output_path)
             s.save()
             messages.success(request, 'Done !')
