@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect
 from prof.models import Profile
 from django.contrib.auth.models import User, auth
-from .models import Wolf, Wiki, Wikihow, Wolfmath, Wolfweather
+from .models import Wolf, Wiki, Wikihow, Wolfmath, Wolfweather, Qr
 import wolframalpha
 import wikipedia
+import pyqrcode
 from whapi import search, get_html, get_images, parse_steps
 from django.contrib import messages
+from PIL import Image
+from django.core.files.storage import FileSystemStorage
+import png
 import os
 
 
@@ -239,3 +243,43 @@ def wikihowdel(request, pk):
     messages.info(request, "successfully deleted !")
     return redirect('/wikihow')
 #---------------------------------------------------------------------------------------------------------------
+
+#---------------------------------------LINK TO QR CODE--------------------------------------------------------
+
+def qr(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    all_user = Profile.objects.all()
+    user_request = User.objects.get(username=request.user.username)
+    user_req = Profile.objects.get(user=user_request)
+    answer = Qr.objects.all().filter(user=user_profile)
+    if request.method == "POST":
+        q = request.POST['qr']
+        if q:
+            output_path = 'Qrcode.png'
+            fs = FileSystemStorage()
+            fs.delete("media/"+output_path)
+            de = Qr.objects.all()
+            de.delete()
+            qr_code = pyqrcode.create(q)
+            qr_code.png("media/"+output_path, scale=5)
+            s = Qr.objects.create(user=user_profile, qr=q, res=output_path)
+            s.save()
+            messages.success(request, 'Done !')
+            return redirect('/qr')
+        else :
+            messages.info(request, 'No Input  !')
+            return redirect('/qr')
+
+
+    context = {
+        'user_profile':user_profile,
+        'all_user' : all_user,
+        'user_req' : user_req,
+        'answer' : answer
+        
+    }
+    return render(request, 'tools/tools_qr.html', context)
+
+
+#--------------------------------------------------------------------------------------------------------------

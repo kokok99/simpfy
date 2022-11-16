@@ -2,3 +2,6 @@ Django
 wolframalpha
 whapi
 wikipedia
+pyqrcode
+pypng
+PyPDF2
