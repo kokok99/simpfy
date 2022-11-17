@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from prof.models import Profile
 from django.contrib.auth.models import User, auth
-from .models import Wolf, Wiki, Wikihow, Wolfmath, Wolfweather, Qr, Bar, Hist, Line
+from .models import Wolf, Wiki, Wikihow, Wolfmath, Wolfweather, Qr, Bar, Hist, Line, Scatter, Line2, Xcel2csv
 import wolframalpha
 import wikipedia
 import pyqrcode
@@ -313,7 +313,7 @@ def bar(request):
             fs.delete("media/"+output)
             de = Bar.objects.all()
             de.delete()
-            data = pd.read_excel(file)
+            data = pd.read_csv(file)
             sns.barplot(x=x, y=y, data=data, hue=ind)
             plt.savefig("media/"+output)
             s = Bar.objects.create(user=user_profile, file=output)
@@ -335,13 +335,6 @@ def bar(request):
 
     return render(request, 'tools/tools_bar.html', context)
 
-def bardel(request, pk):
-    q = Bar.objects.get(id=pk)
-    q.delete()
-    messages.info(request, "successfully deleted !")
-    return redirect('/bar')
-
-
 def hist(request):
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
@@ -358,9 +351,9 @@ def hist(request):
             output = 'hist.png'
             fs = FileSystemStorage()
             fs.delete("media/"+output)
-            de = Bar.objects.all()
+            de = Hist.objects.all()
             de.delete()
-            data = pd.read_excel(file)
+            data = pd.read_csv(file)
             sns.histplot(x=x,data=data, hue=ind)
             plt.savefig("media/"+output)
             s = Hist.objects.create(user=user_profile, file=output)
@@ -399,9 +392,9 @@ def line(request):
             output = 'line.png'
             fs = FileSystemStorage()
             fs.delete("media/"+output)
-            de = Bar.objects.all()
+            de = Line.objects.all()
             de.delete()
-            data = pd.read_excel(file)
+            data = pd.read_csv(file)
             sns.lineplot(x=x, y=y, data=data)
             plt.savefig("media/"+output)
             s = Line.objects.create(user=user_profile, file=output)
@@ -423,4 +416,125 @@ def line(request):
 
     return render(request, 'tools/tools_line.html', context)
 
+def scatter(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    all_user = Profile.objects.all()
+    user_request = User.objects.get(username=request.user.username)
+    user_req = Profile.objects.get(user=user_request)
+    answer = Scatter.objects.all().filter(user=user_profile)
+
+    if request.method == "POST":
+        file = request.FILES['file']
+        x = request.POST['x']
+        y = request.POST['y']
+        ind = request.POST['ind']
+        if file:
+            output = 'scatter.png'
+            fs = FileSystemStorage()
+            fs.delete("media/"+output)
+            de = Scatter.objects.all()
+            de.delete()
+            data = pd.read_csv(file)
+            sns.scatterplot(x=x, y=y, data=data, hue=ind)
+            plt.savefig("media/"+output)
+            s = Scatter.objects.create(user=user_profile, file=output)
+            s.save()
+            messages.info(request, 'Success visualizing you data !')
+            return redirect('/scatter')
+        else:
+            messages.info(request, 'No File :(')
+            return redirect('/scatter')
+
+
+    context = {
+        'user_profile':user_profile,
+        'all_user' : all_user,
+        'user_req' : user_req,
+        'answer' : answer
+        
+    }
+
+    return render(request, 'tools/tools_scatter.html', context)
+
+def line2(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    all_user = Profile.objects.all()
+    user_request = User.objects.get(username=request.user.username)
+    user_req = Profile.objects.get(user=user_request)
+    answer = Line2.objects.all().filter(user=user_profile)
+
+    if request.method == "POST":
+        file = request.FILES['file']
+        drop = request.POST['drop']
+
+        if file:
+            output = 'line2.png'
+            fs = FileSystemStorage()
+            fs.delete("media/"+output)
+            de = Line2.objects.all()
+            de.delete()
+            data = pd.read_csv(file)
+            sns.lineplot(data=data.drop([drop], axis=1))
+            plt.savefig("media/"+output)
+            s = Line2.objects.create(user=user_profile, file=output)
+            s.save()
+            messages.info(request, 'Success visualizing you data !')
+            return redirect('/line2')
+        else:
+            messages.info(request, 'No File :(')
+            return redirect('/line2')
+
+
+    context = {
+        'user_profile':user_profile,
+        'all_user' : all_user,
+        'user_req' : user_req,
+        'answer' : answer
+        
+    }
+
+    return render(request, 'tools/tools_line2.html', context)
+
 #-----------------------------------------------------------------------------------------------------------
+
+#--------------------------------------EXCEL TO CSV----------------------------------------------------------
+
+def xcel2csv(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    all_user = Profile.objects.all()
+    user_request = User.objects.get(username=request.user.username)
+    user_req = Profile.objects.get(user=user_request)
+    answer = Xcel2csv.objects.all().filter(user=user_profile)
+
+    if request.method == "POST":
+        xcel = request.FILES['xcel']
+        if xcel:
+            output = 'result.csv'
+            fs = FileSystemStorage()
+            fs.delete("media/"+output)
+            de = Xcel2csv.objects.all()
+            de.delete()
+            read_file = pd.read_excel(xcel)
+            read_file.to_csv("media/"+output)
+            s = Xcel2csv.objects.create(user=user_profile, file=output)
+            s.save()
+            messages.info(request, 'Convert Done !')
+            return redirect('/xcel2csv')
+        else:
+            messages.info(request, 'No Files :(')
+            return redirect('/xcel2csv')
+
+    context = {
+        'user_profile':user_profile,
+        'all_user' : all_user,
+        'user_req' : user_req,
+        'answer' : answer
+        
+    }
+
+    return render(request, 'tools/tools_xcel2csv.html', context)
+
+#------------------------------------------------------------------------------------------------------------

@@ -99,14 +99,12 @@
                     <div class="ps-3">
                       {% if post.captionimg != None and post.image.url != None %}
                       <div class="p-2 px-3"><h5>{{ post.captionimg }}</h5></div>
-                      <div class="feed-image p-2 px-3"><a href="{{ post.image.url }}"><img class="img-fluid img-responsive" src="{{ post.image.url }}"></a></div>
+                      <a href="{{ post.image.url }}"><img class="img-fluid img-responsive" src="{{ post.image.url }}"></a>
                       {% elif post.captionvid != None and post.video.url != None %}
                       <div class="p-2 px-3"><h5>{{ post.captionvid }}</h5></div>
-                      <div class="feed-image p-2 px-3">
                       <video class="img-fluid img-responsive" controls>
                         <source src="{{ post.video.url }}" type='video/mp4'>
                       </video>
-                      </div>
                       {% elif post.caption != None and post.file.url != None %}
                       <div class="p-2 px-3"><h5>{{ post.caption }}</h5></div>
                       <div class="feed-image p-2 px-3"><a href="{{ post.file.url }}">View File</a></div>

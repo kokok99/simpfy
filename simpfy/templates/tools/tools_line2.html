@@ -18,7 +18,7 @@
             <p class="mb-0">P:S the csv converter is outside ;)</p>
           </div>
           {% for message in messages %}
-          <div class="alert alert-dark alert-dismissible fade show" role="alert">
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
             <i class="bi bi-exclamation-octagon me-1"></i>
             {{message}}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -31,22 +31,14 @@
                 <form action="" method="POST" enctype="multipart/form-data" class="row g-3">
                   {% csrf_token %}
                   <div class="col-12">
-                    <center><label class="form-label"><img class="img-fluid img-responsive" src="{% static 'tools/img/bar.png' %}" width=400 height=200><br>
+                    <center><label class="form-label"><img class="img-fluid img-responsive" src="{% static 'tools/img/line2.png' %}" width=400 height=200><br>
                       <h3 class="btn bg-warning" style="color:black;"><i class="bi bi-arrow-down-square"></i> Pick CSV file</h3>
                      </label></center>
                     <input type="file" name="file" class="form-control" id="inputNanme4">
                   </div>
-                  <div class="col-md-4">
-                    <label for="inputEmail5" class="form-label">X axis</label>
-                    <input type="text" name="x" class="form-control" id="inputEmail5">
-                  </div>
-                  <div class="col-md-4">
-                    <label for="inputPassword5" class="form-label">Y axis</label>
-                    <input type="text" name="y" class="form-control" id="inputPassword5">
-                  </div>
-                  <div class="col-md-4">
-                    <label for="inputPassword5" class="form-label">Indicator</label>
-                    <input type="text" name="ind" class="form-control" id="inputPassword5">
+                  <div class="col-md-12">
+                    <label for="inputEmail5" class="form-label">Which Data To Drop</label>
+                    <input type="text" name="drop" class="form-control" id="inputEmail5">
                   </div>
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary btn-sm">Visualize</button>
@@ -70,7 +62,7 @@
             </div>
             <div class="card-body">    
               <h5><img class="img-fluid img-responsive" src={{ans.file.url}}></h5>
-               
+              
               <a href="{{ans.file.url}}" class="btn btn-primary btn-sm" download> Download</a> 
             </div>
           </div>

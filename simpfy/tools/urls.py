@@ -14,8 +14,15 @@ urlpatterns = [
     path('wikihow', views.wikihow, name="wikihow"),
     path('wikihowres/<int:pk>', views.wikihowres, name="wikihowres"),
     path('wikihowdel/<int:pk>', views.wikihowdel, name="wikihowdel"),
+    #-------OTHER TOOLS-----------------------------------------------
     path('qr', views.qr, name="qr"),
+    path('xcel2csv', views.xcel2csv, name="xcel2csv"),
+    #-----------------------------------------------------------------
+    #----------DATA VISUALIZE---------------------------------------
     path('bar', views.bar, name="bar"),
     path('hist', views.hist, name="hist"),
-    path('line', views.line, name="line")
+    path('line', views.line, name="line"),
+    path('scatter', views.scatter, name="scatter"),
+    path('line2', views.line2, name="line2"),
+    #-------------------------------------------------------------------
 ]

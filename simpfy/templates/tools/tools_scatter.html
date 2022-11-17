@@ -18,7 +18,7 @@
             <p class="mb-0">P:S the csv converter is outside ;)</p>
           </div>
           {% for message in messages %}
-          <div class="alert alert-dark alert-dismissible fade show" role="alert">
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
             <i class="bi bi-exclamation-octagon me-1"></i>
             {{message}}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -31,7 +31,7 @@
                 <form action="" method="POST" enctype="multipart/form-data" class="row g-3">
                   {% csrf_token %}
                   <div class="col-12">
-                    <center><label class="form-label"><img class="img-fluid img-responsive" src="{% static 'tools/img/bar.png' %}" width=400 height=200><br>
+                    <center><label class="form-label"><img class="img-fluid img-responsive" src="{% static 'tools/img/scatter.png' %}" width=400 height=200><br>
                       <h3 class="btn bg-warning" style="color:black;"><i class="bi bi-arrow-down-square"></i> Pick CSV file</h3>
                      </label></center>
                     <input type="file" name="file" class="form-control" id="inputNanme4">

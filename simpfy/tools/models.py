@@ -48,3 +48,15 @@ class Hist(models.Model):
 class Line(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     file = models.FileField(upload_to='line', null=True, blank=True)
+
+class Scatter(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    file = models.FileField(upload_to='scatter', null=True, blank=True)
+
+class Line2(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    file = models.FileField(upload_to='line2', null=True, blank=True)
+
+class Xcel2csv(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    file = models.FileField(upload_to='xcel', null=True, blank=True)
