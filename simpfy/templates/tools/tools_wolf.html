@@ -18,7 +18,7 @@
                 <form action="" method="POST" enctype="multipart/form-data" class="row g-3">
                   {% csrf_token %}
                   <div class="col-12">
-                    <center><label class="form-label"><img src="{% static 'tools/img/ask.png' %}" width=400 height=200></label></center>
+                    <center><label class="form-label"><img class="img-fluid img-responsive" src="{% static 'tools/img/ask.png' %}" width=400 height=200></label></center>
                     <input type="text" name="ask" class="form-control" id="inputNanme4">
                   </div>
                   <div class="text-center">
@@ -43,7 +43,7 @@
             </div>
             <div class="card-body">    
               <p>{{ans.outputtext}}<p>
-              <h5><img src={{ans.outputimg}}></h5>
+              <h5><img class="img-fluid img-responsive" src={{ans.outputimg}}></h5>
                 
               <a style="float:left;" href="/wolfdel/{{ans.id}}" class="btn btn-danger btn-sm">Remove</a>   
             </div>

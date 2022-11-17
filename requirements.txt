@@ -5,3 +5,6 @@ wikipedia
 pyqrcode
 pypng
 PyPDF2
+matplotlib
+pandas
+openpyxl

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from prof.models import Profile
 from django.contrib.auth.models import User, auth
-from .models import Wolf, Wiki, Wikihow, Wolfmath, Wolfweather, Qr
+from .models import Wolf, Wiki, Wikihow, Wolfmath, Wolfweather, Qr, Bar, Hist, Line
 import wolframalpha
 import wikipedia
 import pyqrcode
@@ -9,6 +9,9 @@ from whapi import search, get_html, get_images, parse_steps
 from django.contrib import messages
 from PIL import Image
 from django.core.files.storage import FileSystemStorage
+import seaborn as sns
+import matplotlib.pyplot as plt
+import pandas as pd
 import png
 import os
 
@@ -281,5 +284,143 @@ def qr(request):
     }
     return render(request, 'tools/tools_qr.html', context)
 
+def qrdel(request, pk):
+    q = Qr.objects.get(id=pk)
+    q.delete()
+    messages.info(request, "successfully deleted !")
+    return redirect('/qr')
+
 
 #--------------------------------------------------------------------------------------------------------------
+
+#------------------------------DATA VISUALIZATION------------------------------------------------------------
+def bar(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    all_user = Profile.objects.all()
+    user_request = User.objects.get(username=request.user.username)
+    user_req = Profile.objects.get(user=user_request)
+    answer = Bar.objects.all().filter(user=user_profile)
+
+    if request.method == "POST":
+        file = request.FILES['file']
+        x = request.POST['x']
+        y = request.POST['y']
+        ind = request.POST['ind']
+        if file:
+            output = 'bar.png'
+            fs = FileSystemStorage()
+            fs.delete("media/"+output)
+            de = Bar.objects.all()
+            de.delete()
+            data = pd.read_excel(file)
+            sns.barplot(x=x, y=y, data=data, hue=ind)
+            plt.savefig("media/"+output)
+            s = Bar.objects.create(user=user_profile, file=output)
+            s.save()
+            messages.info(request, 'Success visualizing you data !')
+            return redirect('/bar')
+        else:
+            messages.info(request, 'No File :(')
+            return redirect('/bar')
+
+
+    context = {
+        'user_profile':user_profile,
+        'all_user' : all_user,
+        'user_req' : user_req,
+        'answer' : answer
+        
+    }
+
+    return render(request, 'tools/tools_bar.html', context)
+
+def bardel(request, pk):
+    q = Bar.objects.get(id=pk)
+    q.delete()
+    messages.info(request, "successfully deleted !")
+    return redirect('/bar')
+
+
+def hist(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    all_user = Profile.objects.all()
+    user_request = User.objects.get(username=request.user.username)
+    user_req = Profile.objects.get(user=user_request)
+    answer = Hist.objects.all().filter(user=user_profile)
+
+    if request.method == "POST":
+        file = request.FILES['file']
+        x = request.POST['x']
+        ind = request.POST['ind']
+        if file:
+            output = 'hist.png'
+            fs = FileSystemStorage()
+            fs.delete("media/"+output)
+            de = Bar.objects.all()
+            de.delete()
+            data = pd.read_excel(file)
+            sns.histplot(x=x,data=data, hue=ind)
+            plt.savefig("media/"+output)
+            s = Hist.objects.create(user=user_profile, file=output)
+            s.save()
+            messages.info(request, 'Success visualizing you data !')
+            return redirect('/hist')
+        else:
+            messages.info(request, 'No File :(')
+            return redirect('/hist')
+
+
+    context = {
+        'user_profile':user_profile,
+        'all_user' : all_user,
+        'user_req' : user_req,
+        'answer' : answer
+        
+    }
+
+    return render(request, 'tools/tools_hist.html', context)
+
+
+def line(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    all_user = Profile.objects.all()
+    user_request = User.objects.get(username=request.user.username)
+    user_req = Profile.objects.get(user=user_request)
+    answer = Line.objects.all().filter(user=user_profile)
+
+    if request.method == "POST":
+        file = request.FILES['file']
+        x = request.POST['x']
+        y = request.POST['y']
+        if file:
+            output = 'line.png'
+            fs = FileSystemStorage()
+            fs.delete("media/"+output)
+            de = Bar.objects.all()
+            de.delete()
+            data = pd.read_excel(file)
+            sns.lineplot(x=x, y=y, data=data)
+            plt.savefig("media/"+output)
+            s = Line.objects.create(user=user_profile, file=output)
+            s.save()
+            messages.info(request, 'Success visualizing you data !')
+            return redirect('/line')
+        else:
+            messages.info(request, 'No File :(')
+            return redirect('/line')
+
+
+    context = {
+        'user_profile':user_profile,
+        'all_user' : all_user,
+        'user_req' : user_req,
+        'answer' : answer
+        
+    }
+
+    return render(request, 'tools/tools_line.html', context)
+
+#-----------------------------------------------------------------------------------------------------------

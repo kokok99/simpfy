@@ -15,4 +15,7 @@ urlpatterns = [
     path('wikihowres/<int:pk>', views.wikihowres, name="wikihowres"),
     path('wikihowdel/<int:pk>', views.wikihowdel, name="wikihowdel"),
     path('qr', views.qr, name="qr"),
+    path('bar', views.bar, name="bar"),
+    path('hist', views.hist, name="hist"),
+    path('line', views.line, name="line")
 ]

@@ -36,3 +36,15 @@ class Qr(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     qr = models.CharField(max_length=500, null=True, blank=True)
     res = models.ImageField(upload_to='qr', null=True, blank=True)
+
+class Bar(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    file = models.FileField(upload_to='bar', null=True, blank=True)
+
+class Hist(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    file = models.FileField(upload_to='hist', null=True, blank=True)
+
+class Line(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    file = models.FileField(upload_to='line', null=True, blank=True)
