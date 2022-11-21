@@ -60,3 +60,7 @@ class Line2(models.Model):
 class Xcel2csv(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     file = models.FileField(upload_to='xcel', null=True, blank=True)
+
+class Mp324(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    file = models.FileField(upload_to='mp3', null=True, blank=True)

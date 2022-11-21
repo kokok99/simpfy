@@ -17,6 +17,7 @@ urlpatterns = [
     #-------OTHER TOOLS-----------------------------------------------
     path('qr', views.qr, name="qr"),
     path('xcel2csv', views.xcel2csv, name="xcel2csv"),
+    path('mp324', views.mp324, name="mp324"),
     #-----------------------------------------------------------------
     #----------DATA VISUALIZE---------------------------------------
     path('bar', views.bar, name="bar"),

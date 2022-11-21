@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from prof.models import Profile
 from django.contrib.auth.models import User, auth
-from .models import Wolf, Wiki, Wikihow, Wolfmath, Wolfweather, Qr, Bar, Hist, Line, Scatter, Line2, Xcel2csv
+from .models import Wolf, Wiki, Wikihow, Wolfmath, Wolfweather, Qr, Bar, Hist, Line, Scatter, Line2, Xcel2csv,  Mp324
 import wolframalpha
 import wikipedia
 import pyqrcode
@@ -12,6 +12,8 @@ from django.core.files.storage import FileSystemStorage
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
+import moviepy
+import moviepy.editor
 import png
 import os
 
@@ -538,3 +540,47 @@ def xcel2csv(request):
     return render(request, 'tools/tools_xcel2csv.html', context)
 
 #------------------------------------------------------------------------------------------------------------
+
+#----------------------------------------mp4 to mp3-------------------------------------------------------
+
+def mp324(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    all_user = Profile.objects.all()
+    user_request = User.objects.get(username=request.user.username)
+    user_req = Profile.objects.get(user=user_request)
+    answer = Mp324.objects.all().filter(user=user_profile)
+
+    if request.method == "POST":
+        vid = request.get.FILES['file']
+        if vid:
+            output = 'result.mp3'
+            fs = FileSystemStorage()
+            fs.delete("media/"+output)
+            de = Mp324.objects.all()
+            de.delete()
+            video = moviepy.editor.VideoFileClip(vid)
+            audio = video.audio
+            audio.write_audiofile("media/"+output)
+            s = Mp324.objects.create(user=user_profile, file=output)
+            s.save()
+            messages.info(request, "video successfully converted!")
+            return redirect("/mp324")
+        else:
+            messages.info(request, "No input :(")
+            return redirect("/mp324")
+
+
+
+    context = {
+        'user_profile':user_profile,
+        'all_user' : all_user,
+        'user_req' : user_req,
+        'answer' : answer
+        
+    }
+
+    return render(request, 'tools/tools_mp324.html', context)
+
+
+#---------------------------------------------------------------------------------------------------------
