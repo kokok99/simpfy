@@ -552,14 +552,16 @@ def mp324(request):
     answer = Mp324.objects.all().filter(user=user_profile)
 
     if request.method == "POST":
-        vid = request.get.FILES['file']
+        vid = request.FILES['file']
         if vid:
+            input = vid.name
             output = 'result.mp3'
             fs = FileSystemStorage()
             fs.delete("media/"+output)
             de = Mp324.objects.all()
             de.delete()
-            video = moviepy.editor.VideoFileClip(vid)
+            fs.save(input, vid)
+            video = moviepy.editor.VideoFileClip("media/"+input)
             audio = video.audio
             audio.write_audiofile("media/"+output)
             s = Mp324.objects.create(user=user_profile, file=output)
