@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from prof.models import Profile
+from wsgiref.util import FileWrapper
+from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
 from .models import Wolf, Wiki, Wikihow, Wolfmath, Wolfweather, Qr, Bar, Hist, Line, Scatter, Line2, Xcel2csv,  Mp324
 import wolframalpha
@@ -261,7 +263,8 @@ def qr(request):
     if request.method == "POST":
         q = request.POST['qr']
         if q:
-            output_path = 'Qrcode.png'
+            user = request.user.username
+            output_path =  user+"Qr.png"
             fs = FileSystemStorage()
             fs.delete("media/"+output_path)
             de = Qr.objects.all()
@@ -286,10 +289,12 @@ def qr(request):
     }
     return render(request, 'tools/tools_qr.html', context)
 
-def qrdel(request, pk):
-    q = Qr.objects.get(id=pk)
-    q.delete()
-    messages.info(request, "successfully deleted !")
+def delqr(request, pk):
+    qr = Qr.objects.get(id=pk)
+    fs = FileSystemStorage()
+    output = qr.res.name
+    fs.delete(output)
+    qr.delete()
     return redirect('/qr')
 
 
@@ -310,7 +315,9 @@ def bar(request):
         y = request.POST['y']
         ind = request.POST['ind']
         if file:
-            output = 'bar.png'
+            user = request.user.username
+            input = file.name
+            output = user+'Bar.png'
             fs = FileSystemStorage()
             fs.delete("media/"+output)
             de = Bar.objects.all()
@@ -350,7 +357,9 @@ def hist(request):
         x = request.POST['x']
         ind = request.POST['ind']
         if file:
-            output = 'hist.png'
+            user = request.user.username
+            input = file.name
+            output = user+'Hist.png'
             fs = FileSystemStorage()
             fs.delete("media/"+output)
             de = Hist.objects.all()
@@ -391,7 +400,9 @@ def line(request):
         x = request.POST['x']
         y = request.POST['y']
         if file:
-            output = 'line.png'
+            user = request.user.username
+            input = file.name
+            output = user+'Line.png'
             fs = FileSystemStorage()
             fs.delete("media/"+output)
             de = Line.objects.all()
@@ -432,7 +443,9 @@ def scatter(request):
         y = request.POST['y']
         ind = request.POST['ind']
         if file:
-            output = 'scatter.png'
+            user = request.user.username
+            input = file.name
+            output = user+'Scatter.png'
             fs = FileSystemStorage()
             fs.delete("media/"+output)
             de = Scatter.objects.all()
@@ -472,7 +485,9 @@ def line2(request):
         drop = request.POST['drop']
 
         if file:
-            output = 'line2.png'
+            user = request.user.username
+            input = file.name
+            output = user+'Line2.png'
             fs = FileSystemStorage()
             fs.delete("media/"+output)
             de = Line2.objects.all()
@@ -514,7 +529,9 @@ def xcel2csv(request):
     if request.method == "POST":
         xcel = request.FILES['xcel']
         if xcel:
-            output = 'result.csv'
+            user = request.user.username
+            input = xcel.name
+            output = user+'Result.csv'
             fs = FileSystemStorage()
             fs.delete("media/"+output)
             de = Xcel2csv.objects.all()
@@ -554,8 +571,9 @@ def mp324(request):
     if request.method == "POST":
         vid = request.FILES['file']
         if vid:
+            user = request.user.username
             input = vid.name
-            output = 'result.mp3'
+            output = user+"Res.mp3"
             fs = FileSystemStorage()
             fs.delete("media/"+output)
             de = Mp324.objects.all()
@@ -566,6 +584,8 @@ def mp324(request):
             audio.write_audiofile("media/"+output)
             s = Mp324.objects.create(user=user_profile, file=output)
             s.save()
+            video.close()
+            fs.delete(input)
             messages.info(request, "video successfully converted!")
             return redirect("/mp324")
         else:

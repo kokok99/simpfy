@@ -16,6 +16,7 @@ urlpatterns = [
     path('wikihowdel/<int:pk>', views.wikihowdel, name="wikihowdel"),
     #-------OTHER TOOLS-----------------------------------------------
     path('qr', views.qr, name="qr"),
+    path('delqr/<int:pk>', views.delqr, name="delqr"),
     path('xcel2csv', views.xcel2csv, name="xcel2csv"),
     path('mp324', views.mp324, name="mp324"),
     #-----------------------------------------------------------------
